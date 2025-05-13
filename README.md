@@ -13,4 +13,15 @@
 	- final: 3부에서 만드는 10가지 AI 프로그램의 완성 코드입니다. 이 코드는 ai_program 폴더에도 있으나, 찾기 쉽도록 장별 폴더로 구분해 두었습니다. 
 	- resource: 실습 시 복사해 쓸 수 있는 준비 코드입니다. 본문 안내에 따라 복사해 사용하세요.
 
-
+## 완성 프로그램 보기
+- [4장 카운터 프로그램](https://appdeploytest-bukcne2sfmxbkzfly5w9kp.streamlit.app/)
+- [6장 친근한 AI 챗봇](https://aiprogramch06-geuvs5prsg4wanpk3calbh.streamlit.app/)
+- [7장 문서 요약 프로그램](https://aiprogramch07-hxmncvlqynzxmplajmsjuq.streamlit.app/)
+- [8장 PDF 번역/요약 프로그램](https://aiprogramch08-bzrjblrsbzqbwkdsy8pmto.streamlit.app/)
+- [9장 AI 텍스트 낭독기](https://aiprogramch09-culyxfz4rl9boon3hk5zgx.streamlit.app/)
+- [10장 보고서 작성 프로그램](https://aiprogramch10-swvhxavbzuipq4z4j8lmgw.streamlit.app/)
+- [11장 여행 가이드 프로그램](https://aiprogramch11-hxwexomxoailtyr2skbms5.streamlit.app/)
+- [12장 회의록 요약 프로그램](https://aiprogramch12-fyr5rpmugmgtqxfadknva4.streamlit.app/)
+- [13장 면접 준비 도우미](https://aiprogramch13-wct9vpyfadmsdz9ksnfzbq.streamlit.app/)
+- [14장 이미지 분석 프로그램](https://aiprogramch14-xueuqizicmhjmckypx9ghd.streamlit.app/)
+- [15장 메일 자동 응답 프로그램](https://aiprogramch15-nmsalernrydeveeawieu6q.streamlit.app/)
