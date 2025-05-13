@@ -2,7 +2,7 @@
 
 이 저장소에는 <입문자를 위한 맞춤형 AI 프로그램 만들기>의 소스 코드가 담겨 있습니다.
 
-![cover image_코자 spring boot_입체](https://github.com/gilbutITbook/080354/assets/6995518/9c6e97fc-5a1c-4856-98a8-8a16eb2c85e2)
+![Image](https://github.com/user-attachments/assets/e9697e9a-51ba-4142-941d-29b8bc7b4fea)
 
 ## 소스 코드 다운로드 및 확인 방법
 
