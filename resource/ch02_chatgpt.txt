@@ -1,0 +1,10 @@
+import streamlit as st
+
+st.markdown(
+    """
+    <div style="background-color: #f0f0f0; padding: 10px; border-radius: 10px;">
+        <h1 style="color: #007BFF;">나만의 AI 여행 가이드</h1>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
