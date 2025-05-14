@@ -2,7 +2,7 @@
 departments = ["컴퓨터공학과", "전자공학과", "심리학과"]
 print(departments)
 
-# 리스트 요소 개수 조회
+# 리스트의 요소 개수 조회
 print(len(departments))
 
 # 리스트의 개별 요소 조회
