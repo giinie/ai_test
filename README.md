@@ -15,7 +15,7 @@
 
 ## 완성 프로그램 보기
 Ctrl+클릭하여 새 탭에서 여세요.<br>
-사이드바에서 발급받은 API Key를 입력해 실행할 수 있습니다.<br>
+발급받은 API Key를 입력한 후 실행할 수 있습니다.<br>
 - <a href="https://appdeploytest-bukcne2sfmxbkzfly5w9kp.streamlit.app/" target="_blank">4장 카운터 프로그램</a>
 - <a href="https://aiprogramch06-geuvs5prsg4wanpk3calbh.streamlit.app/" target="_blank">6장 친근한 AI 챗봇</a>
 - <a href="https://aiprogramch07-hxmncvlqynzxmplajmsjuq.streamlit.app/" target="_blank">7장 문서 요약 프로그램</a>
