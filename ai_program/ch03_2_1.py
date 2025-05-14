@@ -17,7 +17,7 @@ print(departments[-2])
 print(departments[0:2]) # 0번, 1번 인덱스 조회
 print(departments[0:3]) # 0번, 1번, 2번 인덱스 조회
 
-# 리스트 요소 삽입
+# 리스트에 요소 삽입
 departments.append("영어영문학과")
 print(departments)
 
