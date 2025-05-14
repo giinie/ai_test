@@ -41,7 +41,7 @@ def main():
 		speed = st.slider("속도 조절:", 0.25, 4.0, 1.0)
 	# (10) 텍스트 입력 위젯 수정[기존 (3)번 코드 수정]
 	default_user_input = """안녕하세요. 여러분.
-오늘은 영어에서 자주 사용되는 'Phrasal Verbs'에 대해 배워볼 거예요.
+오늘은 영어에서 자주 사용되는 'Phrasal Verb'에 대해 배워볼 거예요.
 Phrasal Verb란 한국어에는 없는 새로운 개념으로,
 동사와 전치사 또는 부사가 결합돼 만들어진 새로운 의미의 표현입니다.
 예를 들면 'look up', 'turn off', 'get along' 등이 있습니다.
