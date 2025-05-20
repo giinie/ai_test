@@ -56,6 +56,7 @@ page_number = 1 		# 페이지 번호 저장
 # (4) 텍스트 추출 함수 호출 및 결과 출력
 pdf_text = get_text_from_page(pdf_data, page_number)
 print(pdf_text)
+
 # (8) 이미지 변환 함수 호출
 convert_pdf_to_images(pdf_data)
 </코드> -----------------------------------------------------------------------------------
