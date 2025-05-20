@@ -50,6 +50,7 @@ def main():
 		# (8) 챗봇의 응답 출력
 		with st.chat_message("assistant"):
 			st.write("안녕! 난 친구 봇이야.😊")
+
 # (5) main() 함수 실행
 if __name__ == "__main__":
 	main()
