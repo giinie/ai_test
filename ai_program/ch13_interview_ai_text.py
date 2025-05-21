@@ -10,8 +10,8 @@ if "client" not in st.session_state:
 # AI 응답 생성 함수 정의(질문 생성, 답변 분석)
 def process_text(prompt: str, client):
     response = client.chat.completions.create(
-    model="gpt-4o-mini",
-    messages=[{"role": "user", "content": prompt}],
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": prompt}],
     )
     return response.choices[0].message.content
 
