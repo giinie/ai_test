@@ -13,9 +13,9 @@ speech_file_path = "AI음성.mp3"
 
 # (3) API 요청 및 응답
 response = client.audio.speech.create(
-	model="tts-1", 	# TTS 모델 설정
-	voice="alloy", 	# 음성 종류 선택
-	input="파이썬의 세계에 오신 것을 환영해요!", # 변환할 텍스트 입력
+	model="tts-1", 					# TTS 모델 설정
+	voice="alloy", 					# 음성 종류 선택
+	input="파이썬의 세계에 오신 것을 환영해요!", 	# 변환할 텍스트 입력
 )
 
 # (4) 음성 파일 저장
