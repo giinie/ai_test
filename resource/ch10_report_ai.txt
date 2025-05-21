@@ -59,7 +59,7 @@ if __name__ == "__main__":
 
 <코드> ch10_report_ai.py --------------------------------------------------------------------------------------
 import streamlit as st
-from openai import OpenAIclient = OpenAI(
+from openai import OpenAI
 from io import BytesIO
 from docx import Document
 from docx.shared import Pt
