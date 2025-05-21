@@ -52,14 +52,14 @@ def main():
 		# OpenAI 클라이언트 생성
 		if openai_api_key:
 			client = OpenAI(api_key=openai_api_key)
-	# 보고서 작성 함수 정의
-	def process_text(prompt, text):
-		content = prompt + "\n" + text
-		response = client.chat.completions.create(
-			model="gpt-4o-mini",
-			messages=[{"role": "user", "content": content}],
-		)
-		return response.choices[0].message.content
+		# 보고서 작성 함수 정의
+		def process_text(prompt, text):
+			content = prompt + "\n" + text
+			response = client.chat.completions.create(
+				model="gpt-4o-mini",
+				messages=[{"role": "user", "content": content}],
+			)
+			return response.choices[0].message.content
 	# 보고서 작성을 위한 프롬프트 입력
 	prompt = """
 	너는 보고서 작성 전문가야.
