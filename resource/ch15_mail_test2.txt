@@ -38,7 +38,7 @@ def main():
     email_message = create_email(recipient_email, subject, body, naver_id)
     # (5) 메일 전송 함수 호출
     send_email(email_message, naver_id, naver_password)
-    print(" 메일이 성공적으로 전송됐습니다!")
+    print("✅ 메일이 성공적으로 전송됐습니다!")
 
 if __name__ == "__main__":
     main()
