@@ -82,12 +82,14 @@ import streamlit as st
 import pymupdf
 from openai import OpenAI
 
+# 텍스트 추출 함수 정의
 def get_text_from_page(pdf_data, page_number):
 	# (1) 파일 위젯에 맞게 읽는 방식 수정
 	document = pymupdf.open(stream=pdf_data, filetype="pdf")
 	page = document[page_number - 1]
 	return page.get_text()
 
+# 이미지 변환 함수 정의
 def convert_pdf_to_images(pdf_data):
 	# (1) 파일 위젯에 맞게 읽는 방식 수정
 	document = pymupdf.open(stream=pdf_data, filetype="pdf")
