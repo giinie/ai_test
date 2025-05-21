@@ -77,7 +77,7 @@ Phrasal Verb는 일상 대화는 물론 공식적인 글에서도 자주 사용�
 		st.download_button(
 			label="MP3 다운로드",       	# 버튼에 표시될 텍스트
 			data=audio_data,          	# 다운로드할 실제 데이터
-			file_name="AI음성.mp3",    	# 다운로드 후 저장될 파일명
+			file_name="AI음성.mp3",    	# 다운로드 후 저장할 파일명
 		)
 
 if __name__ == "__main__":
