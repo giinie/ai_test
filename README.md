@@ -2,7 +2,7 @@
 
 이 저장소에는 <입문자를 위한 맞춤형 AI 프로그램 만들기>의 소스 코드가 담겨 있습니다.
 
-![Image](https://github.com/user-attachments/assets/920b32ab-e3d4-48c9-9c94-24f38127370f)
+![Image](https://github.com/user-attachments/assets/addd2637-e038-4d3e-8364-7d1f854a0e27)
 
 ## 소스 코드 다운로드 및 확인 방법
 
