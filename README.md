@@ -16,7 +16,7 @@
 ## 완성 프로그램 보기
 Ctrl+클릭하여 새 탭에서 여세요.<br>
 발급받은 API Key를 입력한 후 실행할 수 있습니다.<br>
-API Key 발급받는 방법은 <a href="https://github.com/dabidstudio/dabidstudio_guides/blob/main/get-openai-api-key.md" target="_blank">링크</a>를 참고해주세요.
+*참고: <a href="https://github.com/dabidstudio/dabidstudio_guides/blob/main/get-openai-api-key.md" target="_blank">API Key 발급받는 방법</a>*
 
 - <a href="https://appdeploytest-bukcne2sfmxbkzfly5w9kp.streamlit.app/" target="_blank">4장 카운터 프로그램</a>
 - <a href="https://aiprogramch06-geuvs5prsg4wanpk3calbh.streamlit.app/" target="_blank">6장 친근한 AI 챗봇</a>
