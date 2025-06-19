@@ -58,8 +58,21 @@ def generate_image_url(prompt: str, client):
 
 
 def main():
+    # CSS 스타일 추가
     st.set_page_config(layout="wide")
-    st.title("여행 가이드 프로그램")
+    st.markdown("""
+        <style>
+        .title {
+            color: blue;
+            background-color: gray;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+    # 기존의 st.title() 대신 st.markdown() 사용
+    st.markdown("<h1 class='title'>나만의 AI 여행 가이드</h1>", unsafe_allow_html=True)
+    # st.title("나만의 AI 여행 가이드")
     with st.sidebar:
         openai_api_key = st.text_input("OpenAI API Key", type="password")
         if openai_api_key:
