@@ -2,10 +2,10 @@ import os
 from openai import OpenAI
 
 # OpenAI 클라이언트 생성
-openai_api_key = "test"
+# openai_api_key = "test"
 client = OpenAI(
-    # api_key=os.environ.get("OPENAI_API_KEY"),
-    api_key = openai_api_key,
+    api_key=os.environ.get("OPENAI_API_KEY"),
+    # api_key = openai_api_key,
 )
 
 # API 요청 및 응답

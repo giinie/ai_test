@@ -1,10 +1,11 @@
+import os
 from openai import OpenAI
 
 # (1) OpenAI 클라이언트 생성
-openai_api_key = "test"
+# openai_api_key = "test"
 client = OpenAI(
-    # api_key=os.environ.get("OPENAI_API_KEY"),
-    api_key=openai_api_key
+    api_key=os.environ.get("OPENAI_API_KEY"),
+    # api_key=openai_api_key
 )
 
 # (2) 대화 내역을 저장할 리스트 선언
