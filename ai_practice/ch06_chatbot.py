@@ -14,7 +14,7 @@ def main():
     with st.sidebar:
         st.subheader("OpenAI API Key 설정")
         # (4) 입력 위젯 유형 설정(비밀번호)
-        ai_test_api_key: str | None = os.environ.get("OPENAI_API_KEY")
+        ai_test_api_key = os.environ.get("OPENAI_API_KEY")
         openai_api_key = st.text_input("OpenAI API Key", type="password", value=ai_test_api_key)
         st.write("[OpenAI API Key 받기](https://platform.openai.com/account/api-keys)")
     # (13) 시스템 프롬프트 추가
