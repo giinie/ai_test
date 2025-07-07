@@ -1,7 +1,48 @@
 import os
+from io import BytesIO
 
 import streamlit as st
+from docx import Document
+from docx.oxml.ns import qn
+from docx.shared import Pt
 from openai import OpenAI
+
+
+# (5) MS워드 문서 변환 함수 정의
+def markdown_to_docx(markdown_content: str, font_name: str, base_font_size: int):
+    doc = Document()
+    lines = markdown_content.split("\n")
+    for line in lines:
+        line = line.strip()
+        if not line:
+            continue
+        if line.startswith("## "):
+            paragraph = doc.add_paragraph()  # 새 문단(paragraph) 추가
+            run = paragraph.add_run(line[3:])  # '## ' 이후 텍스트 추가
+            font = run.font  # run 객체의 font 속성에 접근
+            font.size = Pt(base_font_size + 3)  # 폰트 크기 설정
+            font.name = font_name  # 폰트 종류 설정
+            font.bold = True  # 폰트 굵기 설정
+            run._element.rPr.rFonts.set(qn('w:eastAsia'), font_name)  # 한글 폰트 설정
+        elif line.startswith("### "):
+            paragraph = doc.add_paragraph()
+            run = paragraph.add_run(line[4:])
+            font = run.font
+            font.size = Pt(base_font_size + 1)
+            font.name = font_name
+            font.bold = True
+            run._element.rPr.rFonts.set(qn('w:eastAsia'), font_name)
+        else:
+            paragraph = doc.add_paragraph()
+            run = paragraph.add_run(line)
+            font = run.font
+            font.size = Pt(base_font_size)
+            font.name = font_name
+            run._element.rPr.rFonts.set(qn('w:eastAsia'), font_name)
+    byte_io = BytesIO()  # 메모리상에서 바이트 데이터를 저장할 객체 생성
+    doc.save(byte_io)  # MS워드 문서(docx)를 바이트 스트림(BytesIO)에 저장
+    byte_io.seek(0)  # 스트림의 위치를 처음(0)으로 이동
+    return byte_io  # 바이트 데이터 반환
 
 
 def main():
@@ -10,6 +51,9 @@ def main():
     with st.sidebar:
         ai_test_api_key = os.environ.get("OPENAI_API_KEY")
         openai_api_key = st.text_input("OpenAI API Key", type="password", value=ai_test_api_key)
+        # (6) 폰트 종류 및 크기 선택 위젯 추가
+        font_name = st.selectbox("글꼴 선택:", ["맑은 고딕", "바탕체"])
+        base_font_size = st.slider("기본 글자 크기 (pt):", value=11)
         # (1) OpenAI 클라이언트 생성
         if openai_api_key:
             client = OpenAI(api_key=openai_api_key)
@@ -48,8 +92,17 @@ def main():
             st.stop()
         with st.spinner("작성 중..."):
             result = process_text(prompt, user_input)
-            print(result)
+            # (7) 필요 없는 문구 삭제
+            # print(result)
             st.write(result)
+            # (8) MS워드 문서 변환 함수 호출
+            docx_file = markdown_to_docx(result, font_name, base_font_size)
+            # (9) 다운로드 버튼 생성
+            st.download_button(
+                label="보고서 다운로드",
+                data=docx_file,
+                file_name="보고서.docx",
+            )
 
 
 if __name__ == "__main__":
