@@ -8,9 +8,6 @@ if "interview_question" not in st.session_state:
     st.session_state.interview_question = None
 if "client" not in st.session_state:
     st.session_state.client = None
-# (11) 세션 상태 추가
-if "transcription" not in st.session_state:
-    st.session_state.transcription = None
 
 
 # (2) AI 응답 생성 함수 정의(질문 생성, 답변 분석)
@@ -73,27 +70,22 @@ def main():
     if st.session_state.interview_question:
         st.write("### 예상 질문: ")
         st.write(f"{st.session_state.interview_question}")
-        st.write("### 답변 녹음 후 평가받기")
-        # (8) 답변 녹음 후 저장
-        audio = st.audio_input("답변 녹음하기")
-        if audio and st.button("답변 평가받기"):
+        st.write("### 답변 입력 후 평가받기")
+        # (8) 답변 입력
+        user_answer = st.text_area(
+            "답변을 입력하세요:",
+            height=100,
+        )
+        # 답변 평가
+        if user_answer and st.button("답변 평가받기"):
             if not openai_api_key:
                 st.info("계속하려면 OpenAI API Key를 추가하세요.")
                 st.stop()
             with st.spinner("답변 평가 중..."):
-                # (9) 음성-텍스트 변환
-                # (12) 음성-텍스트 변환값 변수명 수정
-                st.session_state.transcription = st.session_state.client.audio.transcriptions.create(
-                    model="whisper-1",
-                    file=audio,
-                    response_format="text"
-                )
-                # (10) 텍스트 변환 결과 출력
-                # st.write(transcription)
-                # (13) 답변 분석을 위한 프롬프트 작성
+                # (13) 답변 평가를 위한 프롬프트 작성
                 evaluation_prompt = f"""
                 너는 전문 면접관이야.
-                지원자가 다음 질문에 대한 답변을 녹음해 제공했어.
+                지원자가 다음 질문에 대한 답변을 작성해 제공했어.
                 질문: {st.session_state.interview_question}
                 지원자의 답변을 다음 기준으로 평가해줘.
                 1. 답변의 논리적 구조
@@ -101,16 +93,12 @@ def main():
                 3. 개선할 점
                 - 마크다운 형식으로 정리해.
                 - 장점과 단점을 명확히 구분해서 설명해.
-                지원자의 답변: {st.session_state.transcription}
+                지원자의 답변: {user_answer}
                 """
                 # (14) 답변 분석
                 evaluation = process_text(evaluation_prompt, st.session_state.client)
-                # (15) 두 개의 탭 생성 및 결과 출력
-                tab1, tab2 = st.tabs(["답변 분석", "답변 원본"])
-                with tab1:
-                    st.write(evaluation)
-                with tab2:
-                    st.write(st.session_state.transcription)
+                # (15) 결과 출력
+                st.write(evaluation)
 
 
 if __name__ == "__main__":

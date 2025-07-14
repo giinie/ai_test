@@ -5,6 +5,7 @@ description = "Add your description here"
 requires-python = ">=3.12"
 dependencies = [
     "openai>=1.88.0",
+    "pandas>=2.3.1",
     "pymupdf>=1.26.3",
     "python-docx>=1.2.0",
     "streamlit>=1.46.0",
