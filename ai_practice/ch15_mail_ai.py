@@ -1,12 +1,19 @@
-from email.header import decode_header
-import streamlit as st
-import pandas as pd
-import imaplib
 import email
+import imaplib
+import os
+from email.header import decode_header
+
+import pandas as pd
+import streamlit as st
+
+# (10) 추가 패키지 설치
+from openai import OpenAI
+from email.message import EmailMessage
+import smtplib
 
 
 # (1) 메일 수신 함수 정의
-def fetch_emails(email_id:str, app_password:str) -> pd.DataFrame:
+def fetch_emails(email_id: str, app_password: str) -> pd.DataFrame:
     try:
         mail = imaplib.IMAP4_SSL("imap.naver.com")
         mail.login(email_id, app_password)
@@ -28,6 +35,7 @@ def fetch_emails(email_id:str, app_password:str) -> pd.DataFrame:
                 "발신인": decode_mime_words(msg.get("From")),
                 "제목": decode_mime_words(msg.get("Subject")),
                 "본문": get_email_content(msg),
+                "메일 객체": msg, # (11) 메일 객체도 저장
             }
             fetched_emails.append(email_data)
         fetched_emails.reverse()
@@ -75,48 +83,80 @@ def get_email_content(message):
         return ""
 
 
+# (12) 회신 메일 생성 함수 정의
+def create_reply(email_message, reply_message, from_addr):
+    reply_to = email_message.get("Reply-To", email_message["From"])
+    reply = EmailMessage()
+    reply["To"] = reply_to
+    reply["From"] = from_addr
+    reply["Subject"] = f"Re: {email_message['Subject']}"
+    reply["In-Reply-To"] = email_message["Message-ID"]
+    reply["References"] = (
+        email_message.get("References", "") + " " + email_message["Message-ID"]
+    ).strip()
+    reply.set_content(reply_message)
+    return reply
+
+
+# (13) 메일 전송 함수 정의
+def send_email(message, email_id, app_password):
+    smtp_server = "smtp.naver.com"
+    smtp_port = 587
+    with smtplib.SMTP(smtp_server, smtp_port) as smtp:
+        smtp.starttls()
+        smtp.login(email_id, app_password)
+        smtp.send_message(message)
+
+
 def main():
     st.set_page_config(layout="wide")
     st.title("메일 자동 응답 프로그램")
     st.caption("최근 수신한 메일을 확인하고 답장 초안을 작성해줍니다.")
     # (4) 주요 세션 상태 변수 선언
-    if "openai_api_key" not in st.session_state: # OpenAI API Key
+    if "openai_api_key" not in st.session_state:  # OpenAI API Key
         st.session_state.openai_api_key = None
-    if "email_id" not in st.session_state: # 네이버 아이디
+    if "email_id" not in st.session_state:  # 네이버 아이디
         st.session_state.email_id = None
-    if "app_password" not in st.session_state: # 네이버 비밀번호
+    if "app_password" not in st.session_state:  # 네이버 비밀번호
         st.session_state.app_password = None
-    if "emails" not in st.session_state: # 메일 데이터프레임
+    if "emails" not in st.session_state:  # 메일 데이터프레임
         st.session_state.emails = None
-    if "client" not in st.session_state: # OpenAI 클라이언트
+    if "client" not in st.session_state:  # OpenAI 클라이언트
         st.session_state.client = None
-    if "answer_generated" not in st.session_state: # 답장 초안
+    if "answer_generated" not in st.session_state:  # 답장 초안
         st.session_state.answer_generated = None
-    if "final_reply" not in st.session_state: # 최종 메일
+    if "final_reply" not in st.session_state:  # 최종 메일
         st.session_state.final_reply = None
     # (5) 사이드바 생성
     with st.sidebar:
+        ai_test_api_key = os.environ.get("OPENAI_API_KEY")
+        naver_app_pw = os.environ.get("NAVER_APP_PW")
         st.session_state.openai_api_key = st.text_input(
             "OpenAI API Key",
             type="password",
+            value=ai_test_api_key,
         )
         st.session_state.email_id = st.text_input(
-            "네이버 아이디(@ 이하 제외)", key="id"
+            "네이버 아이디(@ 이하 제외)",
+            key="id",
         )
         st.session_state.app_password = st.text_input(
-            "네이버 비밀번호", key="password", type="password"
+            "네이버 비밀번호",
+            key="password",
+            type="password",
+            value=naver_app_pw,
         )
     # (6) 열 레이아웃 생성
     col1, col2 = st.columns([1.5, 1])
     with col1:
         if st.button("메일 불러오기"):
             if not (
-                st.session_state.openai_api_key
-                and st.session_state.email_id
-                and st.session_state.app_password
+                    st.session_state.openai_api_key
+                    and st.session_state.email_id
+                    and st.session_state.app_password
             ):
-               st.info("API Key, 네이버 아이디와 비밀번호를 입력하세요.")
-               st.stop()
+                st.info("API Key, 네이버 아이디와 비밀번호를 입력하세요.")
+                st.stop()
             with st.spinner("메일 불러오는 중..."):
                 emails_df = fetch_emails(st.session_state.email_id, st.session_state.app_password)
                 # (7) 메일 데이터프레임 세션 상태 변수 선언
@@ -138,13 +178,58 @@ def main():
                 email_subject = selected_row["제목"]
                 sender = selected_row["발신인"]
                 email_content = selected_row["본문"]
+                message_object = selected_row["메일 객체"] # (14) 메일 객체 추가
                 st.write("제목: ", email_subject)
                 st.write("발신인: ", sender)
                 st.write(email_content)
             else:
                 st.write("메일을 선택하세요.")
     with col2:
-        st.write("답장 초안")
+        # (15) 답장 작성을 위한 프롬프트 입력 위젯 생성
+        default_user_prompt = """
+        - 반드시 한글로 작성해.
+        - 구체적인 상황을 설명해달라는 내용으로 작성해.
+        - 친절하게 작성해.
+        """
+        user_input = st.text_area(
+            "메일 답장 방식을 작성해주세요.",
+            value=default_user_prompt,
+            height=100,
+        )
+        generate_answers = st.button("답장 초안 작성")
+        if generate_answers:
+            st.session_state.client = OpenAI(api_key=st.session_state.openai_api_key)
+            with st.spinner("답장 초안 작성 중..."):
+                # (16) 최종 프롬프트로 답장 초안 생성
+                prompt = f"""
+                메일 발신인: {sender}
+                메일 내용: {email_content}
+                너는 위 메일에 대한 답장을 작성하는 사람이야.
+                {user_input}
+                """
+                response = st.session_state.client.chat.completions.create(
+                    model="gpt-4o-mini",
+                    messages=[{"role": "system", "content": prompt}],
+                )
+                result_text = response.choices[0].message.content
+            # (17) 답장 초안의 세션 상태 선언
+            st.session_state.generated_answer = result_text
+            st.session_state.answer_generated = True
+        if st.session_state.answer_generated:
+            # (18) 답장 초안 출력
+            st.session_state.final_reply = st.text_area(
+                "AI로 작성한 답장 초안",
+                value=st.session_state.generated_answer,
+                height=300,
+            )
+            # (19) 메일 회신 버튼 로직 구현
+            if st.button("메일 회신하기"):
+                with st.spinner("메일 회신 중..."):
+                    from_addr = f"{st.session_state.email_id}@naver.com"
+                    reply_message = st.session_state.final_reply
+                    reply_email = create_reply(message_object, reply_message, from_addr)
+                send_email(reply_email, st.session_state.email_id, st.session_state.app_password)
+                st.success("메일을 성공적으로 보냈습니다.")
 
 
 if __name__ == "__main__":
