@@ -186,15 +186,14 @@ def main():
                 st.write("메일을 선택하세요.")
     with col2:
         # (15) 답장 작성을 위한 프롬프트 입력 위젯 생성
-        default_user_prompt = """
-        - 반드시 한글로 작성해.
-        - 구체적인 상황을 설명해달라는 내용으로 작성해.
-        - 친절하게 작성해.
-        """
+        default_user_prompt = """- 반드시 한글로 작성해.
+- 구체적인 상황을 설명해달라는 내용으로 작성해.
+- 친절하게 작성해.
+"""
         user_input = st.text_area(
             "메일 답장 방식을 작성해주세요.",
             value=default_user_prompt,
-            height=100,
+            height=120,
         )
         generate_answers = st.button("답장 초안 작성")
         if generate_answers:
